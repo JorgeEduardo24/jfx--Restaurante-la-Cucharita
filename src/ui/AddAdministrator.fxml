@@ -16,27 +16,22 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="589.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="102.0" fitWidth="107.0" layoutX="241.0" layoutY="7.0">
-         <image>
-            <Image url="@../../../../Pictures/AppsPictures/empleados.png" />
-         </image>
-      </ImageView>
-      <Text fill="#838383" layoutX="153.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Agregar empleado" wrappingWidth="312.029296875">
+      <Text fill="#838383" layoutX="128.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear Administrador" wrappingWidth="363.029296875">
          <font>
             <Font name="Arial Black" size="30.0" />
          </font>
       </Text>
       <GridPane alignment="CENTER" layoutX="35.0" layoutY="158.0" prefHeight="212.0" prefWidth="491.0">
-        <columnConstraints>
-          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="272.0" minWidth="10.0" prefWidth="197.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="357.0" minWidth="10.0" prefWidth="357.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+         <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="272.0" minWidth="10.0" prefWidth="197.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="357.0" minWidth="10.0" prefWidth="357.0" />
+         </columnConstraints>
+         <rowConstraints>
             <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+            <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
             <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre: ">
                <font>
@@ -70,7 +65,7 @@
                   <Insets right="5.0" />
                </GridPane.margin>
             </Text>
-            <TextField fx:id="txtEmployeeName" GridPane.columnIndex="1">
+            <TextField fx:id="txtAdminName" GridPane.columnIndex="1">
                <font>
                   <Font size="14.0" />
                </font>
@@ -78,7 +73,7 @@
                   <Insets left="7.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="txtEmployeeID" prefHeight="25.0" prefWidth="217.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="txtAdminID" prefHeight="25.0" prefWidth="217.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="14.0" />
                </font>
@@ -86,7 +81,7 @@
                   <Insets left="7.0" />
                </GridPane.margin>
             </TextField>
-            <PasswordField fx:id="pssEmployeePassword" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <PasswordField fx:id="pssAdminPassword" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font size="14.0" />
                </font>
@@ -94,14 +89,19 @@
                   <Insets left="7.0" />
                </GridPane.margin>
             </PasswordField>
-            <DatePicker fx:id="dpEmployeeBirthday" prefHeight="34.0" prefWidth="246.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <DatePicker fx:id="dpAdminBirthday" prefHeight="34.0" prefWidth="246.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="7.0" />
                </GridPane.margin>
             </DatePicker>
          </children>
       </GridPane>
-      <Button layoutX="228.0" layoutY="385.0" mnemonicParsing="false" onAction="#addEmployee" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Agregar Empleado" />
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnFromAddEmployee" prefHeight="31.0" prefWidth="78.0" style="-fx-background-color: #F00000; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Atrás" />
+      <Button layoutX="228.0" layoutY="385.0" mnemonicParsing="false" onAction="#createAdministrator" prefHeight="37.0" prefWidth="163.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Agregar Administrador" />
+      <ImageView fitHeight="93.0" fitWidth="93.0" layoutX="254.0" layoutY="7.0">
+         <image>
+            <Image url="@../../../../Pictures/AppsPictures/jefe.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnFromCreateAdmin" prefHeight="31.0" prefWidth="78.0" style="-fx-background-color: #F00000; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Atrás" />
    </children>
 </AnchorPane>

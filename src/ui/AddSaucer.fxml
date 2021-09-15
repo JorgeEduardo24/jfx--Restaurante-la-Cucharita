@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="589.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text fill="#838383" layoutX="181.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear platillo" wrappingWidth="226.029296875">
+         <font>
+            <Font name="Arial Black" size="30.0" />
+         </font>
+      </Text>
+      <GridPane alignment="CENTER" layoutX="21.0" layoutY="158.0" prefHeight="230.0" prefWidth="523.0">
+         <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="272.0" minWidth="10.0" prefWidth="197.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="357.0" minWidth="10.0" prefWidth="357.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del platillo: ">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Text>
+            <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrediente:" GridPane.rowIndex="2">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Text>
+            <TextField fx:id="txtSaucerName" GridPane.columnIndex="1">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="7.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label alignment="CENTER" text="Importante:" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtSaucerIngredient" prefHeight="22.0" prefWidth="335.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="7.0" />
+               </GridPane.margin>
+            </TextField>
+            <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad:" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </Text>
+            <TextField fx:id="txtAmountSaucerIngredient" prefHeight="25.0" prefWidth="217.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="7.0" />
+               </GridPane.margin>
+            </TextField>
+            <VBox prefHeight="51.0" prefWidth="342.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Label text="Agrega uno a uno cada ingrediente del platillo.">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="7.0" />
+                     </padding>
+                  </Label>
+                  <Label prefHeight="33.0" prefWidth="342.0" text="Cuando termine de agregar ingredientes">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="7.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label prefHeight="12.0" prefWidth="342.0" text="presiona la tecla &quot;Agregar platillo&quot;.">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="7.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+      <Button layoutX="244.0" layoutY="398.0" mnemonicParsing="false" onAction="#addSaucerIngredient" prefHeight="37.0" prefWidth="147.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Agregar Ingrediente" />
+      <ImageView fitHeight="92.0" fitWidth="101.0" layoutX="244.0" layoutY="14.0">
+         <image>
+            <Image url="@../../../../Pictures/AppsPictures/burger.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="422.0" layoutY="60.0" mnemonicParsing="false" onAction="#addSaucer" prefHeight="42.0" prefWidth="135.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Agregar Platillo" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnFromAddSaucer" prefHeight="31.0" prefWidth="78.0" style="-fx-background-color: #F00000; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Atrás" />
+   </children>
+</AnchorPane>
