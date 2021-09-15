@@ -56,11 +56,20 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </HBox>
-            <Button mnemonicParsing="false" onAction="#logIn" prefHeight="47.0" prefWidth="115.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Iniciar Sesión">
-               <VBox.margin>
-                  <Insets left="120.0" top="10.0" />
-               </VBox.margin>
-            </Button>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#logIn" prefHeight="47.0" prefWidth="115.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Iniciar Sesión">
+                     <HBox.margin>
+                        <Insets left="20.0" top="15.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#createAccount" prefHeight="47.0" prefWidth="115.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Crear Cuenta">
+                     <HBox.margin>
+                        <Insets left="70.0" top="15.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>

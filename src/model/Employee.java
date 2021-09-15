@@ -2,20 +2,13 @@ package model;
 
 public class Employee {
 	protected String name;
-	protected String identificationCard;
+	protected String id;
 	protected String birthday;
 	protected String password;
-	private static int userCounter;
-	private final int id;
 	
-	private Employee() {
-		this.id = ++Employee.userCounter;
-	}
-	
-	public Employee(String name, String identificationCard, String birthday, String password) {
-		this();
+	public Employee(String name, String id, String birthday, String password) {
 		this.name = name;
-		this.identificationCard = identificationCard;
+		this.id = id;
 		this.birthday = birthday;
 		this.password = password;
 	}
@@ -28,12 +21,12 @@ public class Employee {
 		this.name = name;
 	}
 
-	public String getIdentificationCard() {
-		return identificationCard;
+	public String getId(){
+		return id;
 	}
 
-	public void setIdentificationCard(String identificationCard) {
-		this.identificationCard = identificationCard;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getBirthday() {
@@ -50,11 +43,6 @@ public class Employee {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	
-	public int getId() {
-		return id;
-	}
-	
+	}	
 	
 }
