@@ -92,6 +92,18 @@ public class LaCucharitaGUI {
     private DatePicker dpEmployeeBirthday;
     
     
+    // ---------------------- CHANGE_PASSWORD ------------------
+    
+    @FXML
+    private TextField txtCheckId;
+
+    @FXML
+    private PasswordField pssCurrentPassword;
+
+    @FXML
+    private PasswordField pssNewPassword;
+    
+    
     //------------------------------------- INVENTORY ----------------------
     //Atributos
     @FXML
@@ -166,8 +178,23 @@ public class LaCucharitaGUI {
 	// ---------------------- LOGIN ------------------------
     
   	@FXML
-  	public void logIn(ActionEvent event) {
+  	public void logIn(ActionEvent event) throws IOException {
+  		String enterID = txtEnterID.getText();
+  		String enterPassword = txtEnterPassword.getText();
+  		
+  		String message = "";
+    	if(employeeList.checkAccount(enterID, enterPassword)) {
+    		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Modules.fxml"));
+    		fxmlLoader.setController(this);
+    		Parent root = fxmlLoader.load();
+    		Scene scene = new Scene(root);
 
+    		mainStage.setScene(scene);
+    		mainStage.show();
+    	}else {
+    		message = "No se pudo iniciar sesión. Identificación o contraseña inconrrectos";
+    		errorAlert(message);
+    	}
   	}
   	
   	@FXML
@@ -265,6 +292,17 @@ public class LaCucharitaGUI {
 		mainStage.setScene(scene);
 		mainStage.show();
     }
+    
+    @FXML
+    void toChangePasswordWindow(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ChangePassword.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
+
+		mainStage.setScene(scene);
+		mainStage.show();
+    }
 
 	// ---------------------- ADD_EMPLOYEE ------------------
     @FXML
@@ -300,59 +338,109 @@ public class LaCucharitaGUI {
 		mainStage.setScene(scene);
 		mainStage.show();
     }
+    
+    
+    // ---------------------- CHANGE_PASSWORD ------------------
+    
+    @FXML
+    public void changePassword(ActionEvent event) {
+    	String checkId = txtCheckId.getText();
+    	String currentPassword = pssCurrentPassword.getText();
+    	String newPassword = pssNewPassword.getText();
+    	
+    	String message = "";
+    	if(employeeList.checkAccount(checkId, currentPassword)) {
+    		employeeList.changePassword(checkId, currentPassword, newPassword);
+    		message = "Cambio de contraseña realizado satisfactoriamente!";
+    		confirmationAlert(message);
+    	}else {
+    		message = "No se puede cambiar la contraseña. La cédula o la contraseña actual son incorrectas. Por favor, intente de nuevo";
+    		errorAlert(message);
+    	}
+    }
+
+    @FXML
+    public void returnFromChangePassword(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ListEmployees.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
+
+		mainStage.setScene(scene);
+		mainStage.show();
+    }
+
 
 	// ------------------------------------- INVENTORY ----------------------
     @FXML
-    void addIngredient(ActionEvent event) {
+    public void addIngredient(ActionEvent event) {
 
     }
 
     @FXML
-    void clearFields(ActionEvent event) {
+    public void clearFields(ActionEvent event) {
 
     }
 
     @FXML
-    void modifyIngredient(ActionEvent event) {
+    public void modifyIngredient(ActionEvent event) {
 
     }
 
     @FXML
-    void removeIngredient(ActionEvent event) {
+    public void removeIngredient(ActionEvent event) {
 
     }
 
     @FXML
-    void returnFromInventory(ActionEvent event) {
+    public void returnFromInventory(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Modules.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
 
+		mainStage.setScene(scene);
+		mainStage.show();
     }
 
 	// ----------------------- FOOD_MENU ------------------------
     @FXML
-    void returnFromFoodMenu(ActionEvent event) {
+    public void returnFromFoodMenu(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Modules.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
 
+		mainStage.setScene(scene);
+		mainStage.show();
     }
 
     @FXML
-    void toAddSaucerWindow(ActionEvent event) {
+    public void toAddSaucerWindow(ActionEvent event) {
 
     }
     
 
 	// ----------------------- ADD SOUCER ------------------------------
     @FXML
-    void addSaucer(ActionEvent event) {
+    public void addSaucer(ActionEvent event) {
 
     }
 
     @FXML
-    void addSaucerIngredient(ActionEvent event) {
+    public void addSaucerIngredient(ActionEvent event) {
 
     }
 
     @FXML
-    void returnFromAddSaucer(ActionEvent event) {
+    public void returnFromAddSaucer(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FoodMenu.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
 
+		mainStage.setScene(scene);
+		mainStage.show();
     }
     
     
