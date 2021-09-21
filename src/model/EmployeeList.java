@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeList {
-	public Employee employee;
+	//public Employee employee;
 	private List<Employee> employees;
 	
 	public EmployeeList() {

@@ -1,6 +1,9 @@
 package ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,14 +23,19 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Employee;
 import model.EmployeeList;
+import model.Ingredient;
+import model.IngredientsList;
 
 public class LaCucharitaGUI {
-	
 	EmployeeList employeeList;
-	private ObservableList<Employee> observableList;
+	private ObservableList<Employee> observableListEmployees;
+	private List<String> ingredientsToCmbx;
+	private IngredientsList ingredientsList;
 	
 	public LaCucharitaGUI() {
 		employeeList = new EmployeeList();
+		ingredientsList = new IngredientsList();
+		ingredientsToCmbx = new ArrayList<String>();
 	}
 	
 	private Stage mainStage;
@@ -107,13 +115,16 @@ public class LaCucharitaGUI {
     //------------------------------------- INVENTORY ----------------------
     //Atributos
     @FXML
-    private TableView<?> tvIngredientInventory;
+    private TableView<Ingredient> tvIngredientInventory;
 
     @FXML
-    private TableColumn<?, ?> tcIngredientName;
+    private TableColumn<Ingredient, String> tcIngredientName;
 
     @FXML
-    private TableColumn<?, ?> tcIngredientQuantity;
+    private TableColumn<Ingredient, Double> tcIngredientQuantity;
+
+    @FXML
+    private TableColumn<Ingredient, String> tcIngredientQuantityUnits;
 
     @FXML
     private TextField txtEnterIngredientName;
@@ -122,7 +133,25 @@ public class LaCucharitaGUI {
     private TextField txtEnterIngredientQuantity;
 
     @FXML
-    private ComboBox<?> cmbxQuantityUnits;
+    private ComboBox<String> cmbxQuantityUnits;
+    
+    
+    //---------------------------  MODIFY_INGREDIENT_WINDOW ------------------------------
+    @FXML
+    private TextField txtQuantityToModify;
+
+    @FXML
+    private ComboBox<String> cmbxQuantityUnitsToModify;
+
+    @FXML
+    private ComboBox<String> cmbxIngredients;
+    
+    
+    
+    
+    //----------------------------- REMOVE_INGREDIENT_WINDOW -----------------------------
+    @FXML
+    private ComboBox<String> cmbxIngredientsRemove;
     
     
  
@@ -218,6 +247,7 @@ public class LaCucharitaGUI {
 
 		mainStage.setScene(scene);
 		mainStage.show();
+		initializeComboBoxOfUnits();
     }
 
     @FXML
@@ -269,7 +299,7 @@ public class LaCucharitaGUI {
     }
     
 
-	// -------------------------- LIST_EMPLOYEES  ---------------------------
+	// ----------------------------------------------------- LIST_EMPLOYEES  --------------------------------------------------
     @FXML
     public void returnFromEmployeeList(ActionEvent event) throws IOException {
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Modules.fxml"));
@@ -369,27 +399,73 @@ public class LaCucharitaGUI {
 		mainStage.setScene(scene);
 		mainStage.show();
     }
+    
+    
+    private void initializeTableViewOfEmployees() {
+    	observableListEmployees = FXCollections.observableArrayList(employeeList.getEmployees());
+    	tvEmployeeList.setItems(observableListEmployees);
+    	tcNameEmployeeName.setCellValueFactory(new PropertyValueFactory<Employee, String>("name"));
+    	tcEmployeeIdentification.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
+    	tcEmployeeBirthday.setCellValueFactory(new PropertyValueFactory<Employee, String>("birthday"));
+    }
 
 
-	// ------------------------------------- INVENTORY ----------------------
+	// --------------------------------------------------------------------- INVENTORY --------------------------------------------------
+    
+    // ------- GENERAL_INVENTORY ------
     @FXML
     public void addIngredient(ActionEvent event) {
+		String message = "";
+		if (txtEnterIngredientName.getText().equals("") == false
+				&& txtEnterIngredientQuantity.getText().equals("") == false
+				&& cmbxQuantityUnits.getSelectionModel().getSelectedItem().equals("") == false) {
 
-    }
+			String ingredientName = txtEnterIngredientName.getText();
+			double ingredientQuantity = Double.parseDouble(txtEnterIngredientQuantity.getText());
+			String quantityUnits = cmbxQuantityUnits.getSelectionModel().getSelectedItem();
+
+			Ingredient ingredient = new Ingredient(ingredientName, ingredientQuantity, quantityUnits);
+			ingredientsList.addIngredient(ingredient);
+			message = "Ingrediente agregado satisfactoriamente.";
+			confirmationAlert(message);
+			initializeTableViewOfIngredients();
+			addIngredientToCmbx(ingredient.getIngredientName());
+			
+		} else {
+			message = "Debe llenar todos los campos para agregar un ingrediente.";
+			errorAlert(message);
+		}
+	}
 
     @FXML
     public void clearFields(ActionEvent event) {
-
+    	txtEnterIngredientName.setText("");
+    	txtEnterIngredientQuantity.setText("");
     }
 
     @FXML
-    public void modifyIngredient(ActionEvent event) {
+    public void toModifyIngredientWindow(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ModifyIngredient.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
 
+		mainStage.setScene(scene);
+		mainStage.show();
+		initializeComboBoxOfModifyUnits();
+		initializeComboBoxOfIngredients();
     }
 
     @FXML
-    public void removeIngredient(ActionEvent event) {
+    public void toRemoveIngredientWindow(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RemoveIngredient.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
 
+		mainStage.setScene(scene);
+		mainStage.show();
+		initializeComboBoxOfIngredientsToRemove();
     }
 
     @FXML
@@ -402,26 +478,154 @@ public class LaCucharitaGUI {
 		mainStage.setScene(scene);
 		mainStage.show();
     }
+    
+    public void initializeTableViewOfIngredients() {
+    	ObservableList<Ingredient> observableListIngredients = FXCollections.observableArrayList(ingredientsList.getIngredients()); 
+    	tvIngredientInventory.setItems(observableListIngredients);
+    	tcIngredientName.setCellValueFactory(new PropertyValueFactory<Ingredient, String>("ingredientName"));
+    	tcIngredientQuantity.setCellValueFactory(new PropertyValueFactory<Ingredient, Double>("quantity"));
+    	tcIngredientQuantityUnits.setCellValueFactory(new PropertyValueFactory<Ingredient, String>("quantityUnits"));
+    }
+    
+    // ---------------------------  MODIFY_INGREDIENT_WINDOW ------------------------------
+    
+	@FXML
+	public void modifyIngredient(ActionEvent event) {
+		String message = "";
+		if (cmbxIngredients.getSelectionModel().getSelectedItem().equals("") == false) {
+			String ingredientsInCmbx = cmbxIngredients.getSelectionModel().getSelectedItem();
+			for (int i = 0; i < (ingredientsList.getIngredients()).size(); i++) {
+				if (ingredientsInCmbx.equals(ingredientsList.getIngredients().get(i).getIngredientName())) {
+					ingredientsList.getIngredients().get(i)
+							.setQuantity(Double.parseDouble(txtQuantityToModify.getText()));
+					ingredientsList.getIngredients().get(i)
+							.setQuantityUnits(cmbxQuantityUnitsToModify.getSelectionModel().getSelectedItem());
+					message = "Ingrediente modificado satisfactoriamente";
+					confirmationAlert(message);
+				}
+			}
+		} else {
+			message = "Seleccione el ingrediente que quiere modificar";
+			errorAlert(message);
+		}
 
-	// ----------------------- FOOD_MENU ------------------------
-    @FXML
-    public void returnFromFoodMenu(ActionEvent event) throws IOException {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Modules.fxml"));
+	}
+    
+	@FXML
+	void returnFromModifyIngredient(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Inventory.fxml"));
 		fxmlLoader.setController(this);
 		Parent root = fxmlLoader.load();
 		Scene scene = new Scene(root);
 
 		mainStage.setScene(scene);
 		mainStage.show();
-    }
+		initializeTableViewOfIngredients();
+	}
+    
+    // --------------------------- REMOVE_INGREDIENT_WINDOW --------------------------------
+	@FXML
+	public void removeIngredient(ActionEvent event) {
+		String message = "";
+
+		if (cmbxIngredientsRemove.getSelectionModel().getSelectedItem().equals("") == false) {
+			String ingredientsInCmbx = cmbxIngredientsRemove.getSelectionModel().getSelectedItem();
+			for (int i = 0; i < (ingredientsList.getIngredients()).size(); i++) {
+				if (ingredientsInCmbx.equals(ingredientsList.getIngredients().get(i).getIngredientName())) {
+					ingredientsList.getIngredients().remove(i);
+					ingredientsToCmbx.remove(i);
+					message = "Ingrediente eliminado satisfactoriamente";
+					confirmationAlert(message);
+				}
+			}
+		} else {
+			message = "Debe seleccionar el ingrediente que quiere eliminar";
+			errorAlert(message);
+		}
+
+	}
 
     @FXML
-    public void toAddSaucerWindow(ActionEvent event) {
+    public void returnFromRemoveIngredient(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Inventory.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
 
+		mainStage.setScene(scene);
+		mainStage.show();
+		initializeTableViewOfIngredients();
     }
-    
 
-	// ----------------------- ADD SOUCER ------------------------------
+    
+    
+	public void initializeComboBoxOfUnits() {
+		List<String> quantityUnits = new ArrayList<String>();
+
+		String quantityUnits1 = "Kilogramos";
+		String quantityUnits2 = "Gramos";
+		String quantityUnits3 = "Mililitros";
+		String quantityUnits4 = "Unidades";
+
+		quantityUnits.add(quantityUnits1);
+		quantityUnits.add(quantityUnits2);
+		quantityUnits.add(quantityUnits3);
+		quantityUnits.add(quantityUnits4);
+
+		ObservableList<String> observableList = FXCollections.observableArrayList(quantityUnits);
+		cmbxQuantityUnits.setItems(observableList);
+	}
+    
+	public void initializeComboBoxOfModifyUnits() {
+		List<String> quantityUnits = new ArrayList<String>();
+
+		String quantityUnits1 = "Kilogramos";
+		String quantityUnits2 = "Gramos";
+		String quantityUnits3 = "Mililitros";
+		String quantityUnits4 = "Unidades";
+
+		quantityUnits.add(quantityUnits1);
+		quantityUnits.add(quantityUnits2);
+		quantityUnits.add(quantityUnits3);
+		quantityUnits.add(quantityUnits4);
+
+		ObservableList<String> observableList = FXCollections.observableArrayList(quantityUnits);
+		cmbxQuantityUnitsToModify.setItems(observableList);
+	}
+
+	public void addIngredientToCmbx(String ingredientName) {
+		ingredientsToCmbx.add(ingredientName);
+	}
+
+	public void initializeComboBoxOfIngredients() {
+		ObservableList<String> observableListIngredientsToCmbx = FXCollections.observableArrayList(ingredientsToCmbx);
+		cmbxIngredients.setItems(observableListIngredientsToCmbx);
+	}
+
+	public void initializeComboBoxOfIngredientsToRemove() {
+		ObservableList<String> observableListIngredientsToCmbx = FXCollections.observableArrayList(ingredientsToCmbx);
+		cmbxIngredientsRemove.setItems(observableListIngredientsToCmbx);
+	}
+    
+    
+	// ------------------------------------------------------------ FOOD_MENU --------------------------------------------------
+	@FXML
+	public void returnFromFoodMenu(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Modules.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
+
+		mainStage.setScene(scene);
+		mainStage.show();
+	}
+
+	@FXML
+	public void toAddSaucerWindow(ActionEvent event) {
+
+	}
+
+	// --------------------------------------------------------------- ADD SOUCER ----------------------------------------------------
     @FXML
     public void addSaucer(ActionEvent event) {
 
@@ -432,39 +636,31 @@ public class LaCucharitaGUI {
 
     }
 
-    @FXML
-    public void returnFromAddSaucer(ActionEvent event) throws IOException {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FoodMenu.fxml"));
+	@FXML
+	public void returnFromAddSaucer(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FoodMenu.fxml"));
 		fxmlLoader.setController(this);
 		Parent root = fxmlLoader.load();
 		Scene scene = new Scene(root);
 
 		mainStage.setScene(scene);
 		mainStage.show();
-    }
-    
-    
-    public void confirmationAlert(String message) {
-    	Alert alert = new Alert(AlertType.CONFIRMATION);
+	}
+
+	public void confirmationAlert(String message) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Restaurante La Cucharita");
 		alert.setHeaderText("Accion exitosa!");
 		alert.setContentText(message);
 		alert.show();
-    }
-    
-    public void errorAlert(String message) {
-    	Alert alert = new Alert(AlertType.ERROR);
+	}
+
+	public void errorAlert(String message) {
+		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Restaurante La Cucharita");
 		alert.setHeaderText("Error");
 		alert.setContentText(message);
 		alert.show();
-    }
-    
-    private void initializeTableViewOfEmployees() {
-    	observableList = FXCollections.observableArrayList(employeeList.getEmployees());
-    	tvEmployeeList.setItems(observableList);
-    	tcNameEmployeeName.setCellValueFactory(new PropertyValueFactory<Employee, String>("name"));
-    	tcEmployeeIdentification.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
-    	tcEmployeeBirthday.setCellValueFactory(new PropertyValueFactory<Employee, String>("birthday"));
-    }
+	}
+
 }

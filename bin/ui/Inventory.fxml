@@ -31,8 +31,9 @@
          <children>
             <TableView fx:id="tvIngredientInventory" prefHeight="370.0" prefWidth="405.0">
                <columns>
-                  <TableColumn fx:id="tcIngredientName" prefWidth="203.0" text="Ingrediente" />
-                  <TableColumn fx:id="tcIngredientQuantity" prefWidth="198.0" text="Cantidad" />
+                  <TableColumn fx:id="tcIngredientName" prefWidth="161.0" text="Ingrediente" />
+                  <TableColumn fx:id="tcIngredientQuantity" prefWidth="98.0" text="Cantidad" />
+                  <TableColumn fx:id="tcIngredientQuantityUnits" prefWidth="145.0" text="Unidades de Cantidad" />
                </columns>
             </TableView>
             <VBox alignment="TOP_CENTER" prefHeight="370.0" prefWidth="235.0">
@@ -68,7 +69,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </TextField>
-                              <ComboBox fx:id="cmbxQuantityUnits" prefHeight="29.0" prefWidth="137.0" promptText="Unidades" />
+                              <ComboBox fx:id="cmbxQuantityUnits" prefHeight="29.0" prefWidth="137.0" promptText="Seleccione" />
                            </children>
                         </HBox>
                      </children>
@@ -86,12 +87,12 @@
                         <Insets top="15.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#modifyIngredient" prefHeight="32.0" prefWidth="153.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Modificar Ingrediente">
+                  <Button mnemonicParsing="false" onAction="#toModifyIngredientWindow" prefHeight="32.0" prefWidth="153.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Modificar Ingrediente">
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#removeIngredient" prefHeight="32.0" prefWidth="153.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Eliminar Ingrediente">
+                  <Button mnemonicParsing="false" onAction="#toRemoveIngredientWindow" prefHeight="32.0" prefWidth="153.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Eliminar Ingrediente">
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>
