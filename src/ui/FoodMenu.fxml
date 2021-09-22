@@ -16,7 +16,7 @@
             <Font name="Arial Black" size="30.0" />
          </font>
       </Text>
-      <TableView fx:id="tcSaucers" layoutX="8.0" layoutY="107.0" prefHeight="351.0" prefWidth="624.0">
+      <TableView fx:id="tvSaucers" layoutX="8.0" layoutY="107.0" prefHeight="351.0" prefWidth="624.0">
          <columns>
             <TableColumn fx:id="tcSaucerName" prefWidth="453.0" text="Platillo" />
             <TableColumn fx:id="tcSaucerPrice" prefWidth="170.0" text="Precio" />

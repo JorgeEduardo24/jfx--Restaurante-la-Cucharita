@@ -2,26 +2,30 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="589.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0" prefWidth="683.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Text fill="#838383" layoutX="181.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear platillo" wrappingWidth="226.029296875">
+      <Text fill="#838383" layoutX="250.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear platillo" wrappingWidth="226.029296875">
          <font>
             <Font name="Arial Black" size="30.0" />
          </font>
       </Text>
-      <GridPane alignment="CENTER" layoutX="21.0" layoutY="158.0" prefHeight="230.0" prefWidth="523.0">
+      <GridPane alignment="CENTER" layoutX="61.0" layoutY="148.0" prefHeight="103.0" prefWidth="523.0">
          <columnConstraints>
             <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="272.0" minWidth="10.0" prefWidth="197.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="357.0" minWidth="10.0" prefWidth="357.0" />
@@ -29,19 +33,9 @@
          <rowConstraints>
             <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
             <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del platillo: ">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets right="5.0" />
-               </GridPane.margin>
-            </Text>
-            <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingrediente:" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -57,78 +51,131 @@
                   <Insets left="7.0" />
                </GridPane.margin>
             </TextField>
-            <Label alignment="CENTER" text="Importante:" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets right="10.0" />
-               </GridPane.margin>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <TextField fx:id="txtSaucerIngredient" prefHeight="22.0" prefWidth="335.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <GridPane.margin>
+            <VBox alignment="CENTER" prefHeight="51.0" prefWidth="342.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <TextField fx:id="txtSaucerPrice" promptText="Valor numérico">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="7.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+               <opaqueInsets>
                   <Insets left="7.0" />
-               </GridPane.margin>
-            </TextField>
-            <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad:" GridPane.rowIndex="3">
+               </opaqueInsets>
+            </VBox>
+            <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio ($):" wrappingWidth="86.625" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
-               <GridPane.margin>
-                  <Insets right="5.0" />
-               </GridPane.margin>
             </Text>
-            <TextField fx:id="txtAmountSaucerIngredient" prefHeight="25.0" prefWidth="217.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets left="7.0" />
-               </GridPane.margin>
-            </TextField>
-            <VBox prefHeight="51.0" prefWidth="342.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <Label text="Agrega uno a uno cada ingrediente del platillo.">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <padding>
-                        <Insets left="7.0" />
-                     </padding>
-                  </Label>
-                  <Label prefHeight="33.0" prefWidth="342.0" text="Cuando termine de agregar ingredientes">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <padding>
-                        <Insets left="7.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin>
-                  </Label>
-                  <Label prefHeight="12.0" prefWidth="342.0" text="presiona la tecla &quot;Agregar platillo&quot;.">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <padding>
-                        <Insets left="7.0" />
-                     </padding>
-                  </Label>
-               </children>
-            </VBox>
          </children>
       </GridPane>
-      <Button layoutX="244.0" layoutY="398.0" mnemonicParsing="false" onAction="#addSaucerIngredient" prefHeight="37.0" prefWidth="147.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Agregar Ingrediente" />
-      <ImageView fitHeight="92.0" fitWidth="101.0" layoutX="244.0" layoutY="14.0">
+      <ImageView fitHeight="92.0" fitWidth="101.0" layoutX="313.0" layoutY="14.0">
          <image>
             <Image url="@../../../../Pictures/AppsPictures/burger.png" />
          </image>
       </ImageView>
-      <Button layoutX="422.0" layoutY="60.0" mnemonicParsing="false" onAction="#addSaucer" prefHeight="42.0" prefWidth="135.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Agregar Platillo" />
+      <Button layoutX="517.0" layoutY="60.0" mnemonicParsing="false" onAction="#addSaucer" prefHeight="42.0" prefWidth="135.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Agregar Platillo" />
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnFromAddSaucer" prefHeight="31.0" prefWidth="78.0" style="-fx-background-color: #F00000; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Atrás" />
+      <HBox layoutY="308.0" prefHeight="278.0" prefWidth="673.0">
+         <children>
+            <TableView fx:id="tvSaucerIngredients" prefHeight="240.0" prefWidth="317.0">
+              <columns>
+                <TableColumn fx:id="tcSaucerIngredientName" prefWidth="142.0" text="Ingrediente del platillo" />
+                <TableColumn fx:id="tcSaucerIngredientQuantity" prefWidth="87.0" text="Cantidad" />
+                  <TableColumn fx:id="tcSaucerIngredientUnitsOfQuantity" prefWidth="87.0" text="Unidades" />
+              </columns>
+            </TableView>
+            <GridPane maxHeight="-Infinity" prefHeight="283.0" prefWidth="322.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="76.0" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="105.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="105.0" minHeight="10.0" prefHeight="74.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="105.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="105.0" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ComboBox fx:id="cmbxAddIngredientToSaucer" prefHeight="30.0" prefWidth="161.0" GridPane.columnIndex="1" />
+                  <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad requerida:" wrappingWidth="155.9140625" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <TextField fx:id="txtRequiredQuantity" prefHeight="30.0" prefWidth="81.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <ComboBox fx:id="cmbxRequiredQuantityUnits" prefHeight="30.0" prefWidth="71.0" />
+                     </children>
+                  </HBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Añadir ingrediente">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="2.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="al platillo:">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <Button mnemonicParsing="false" onAction="#addIngredientToSaucer" prefHeight="30.0" prefWidth="147.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Agregar Ingrediente" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="35.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <ComboBox fx:id="cmbxIngredientToRemoveFromSaucer" prefHeight="32.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Button mnemonicParsing="false" onAction="#removeIngredientFromSaucer" prefHeight="30.0" prefWidth="147.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Eliminar Ingrediente" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets bottom="15.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+                     <children>
+                        <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Eliminar ingrediente">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="del platillo:">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+               </children>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </GridPane>
+         </children></HBox>
+      <Label layoutX="246.0" layoutY="265.0" text="Ingredientes del platillo" textFill="#ff751c">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

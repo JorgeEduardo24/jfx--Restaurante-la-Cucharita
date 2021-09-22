@@ -25,17 +25,21 @@ import model.Employee;
 import model.EmployeeList;
 import model.Ingredient;
 import model.IngredientsList;
+import model.Saucer;
 
 public class LaCucharitaGUI {
 	EmployeeList employeeList;
 	private ObservableList<Employee> observableListEmployees;
 	private List<String> ingredientsToCmbx;
 	private IngredientsList ingredientsList;
+	private Saucer saucer;
+	private List<Ingredient> ingredientsOfSaucer;
 	
 	public LaCucharitaGUI() {
 		employeeList = new EmployeeList();
 		ingredientsList = new IngredientsList();
 		ingredientsToCmbx = new ArrayList<String>();
+		ingredientsOfSaucer = new ArrayList<Ingredient>();
 	}
 	
 	private Stage mainStage;
@@ -157,7 +161,7 @@ public class LaCucharitaGUI {
  
     // ----------------------- FOOD_MENU ------------------------
     @FXML
-    private TableView<?> tcSaucers;
+    private TableView<?> tvSaucers;
 
     @FXML
     private TableColumn<?, ?> tcSaucerName;
@@ -166,16 +170,36 @@ public class LaCucharitaGUI {
     private TableColumn<?, ?> tcSaucerPrice;
     
     
-    
     //----------------------- ADD SOUCER ------------------------------
     @FXML
     private TextField txtSaucerName;
 
     @FXML
-    private TextField txtSaucerIngredient;
+    private TextField txtSaucerPrice;
 
     @FXML
-    private TextField txtAmountSaucerIngredient;
+    private TableView<Ingredient> tvSaucerIngredients;
+
+    @FXML
+    private TableColumn<Ingredient, String> tcSaucerIngredientName;
+
+    @FXML
+    private TableColumn<Ingredient, Double> tcSaucerIngredientQuantity;
+
+    @FXML
+    private TableColumn<Ingredient, String> tcSaucerIngredientUnitsOfQuantity;
+
+    @FXML
+    private ComboBox<String> cmbxAddIngredientToSaucer;
+
+    @FXML
+    private TextField txtRequiredQuantity;
+
+    @FXML
+    private ComboBox<String> cmbxRequiredQuantityUnits;
+
+    @FXML
+    private ComboBox<String> cmbxIngredientToRemoveFromSaucer;
     
     
     
@@ -367,6 +391,7 @@ public class LaCucharitaGUI {
 
 		mainStage.setScene(scene);
 		mainStage.show();
+		initializeTableViewOfEmployees();
     }
     
     
@@ -398,6 +423,7 @@ public class LaCucharitaGUI {
 
 		mainStage.setScene(scene);
 		mainStage.show();
+		initializeTableViewOfEmployees();
     }
     
     
@@ -621,21 +647,72 @@ public class LaCucharitaGUI {
 	}
 
 	@FXML
-	public void toAddSaucerWindow(ActionEvent event) {
+	public void toAddSaucerWindow(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddSaucer.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
 
+		mainStage.setScene(scene);
+		mainStage.show();
+		initializeComboBoxOfUnitsInAddSoucerWindow();
+		initializeComboBoxOfIngredientsInAddSoucerWindow();
+		initializeComboBoxOfIngredientsToRemoveInAddSoucerWindow();
+		initializeTableViewOfIngredientsoFSaucer();
 	}
 
 	// --------------------------------------------------------------- ADD SOUCER ----------------------------------------------------
-    @FXML
-    public void addSaucer(ActionEvent event) {
+	@FXML
+	public void addIngredientToSaucer(ActionEvent event) {
+		String message = "";
+		if (cmbxAddIngredientToSaucer.getSelectionModel().getSelectedItem().equals("") == false) {
+			String ingredientToSaucer = cmbxAddIngredientToSaucer.getSelectionModel().getSelectedItem();
+			for(int i=0; i<ingredientsList.getIngredients().size();i++) {
+				if (ingredientToSaucer.equals(ingredientsList.getIngredients().get(i).getIngredientName())) {
+					ingredientsOfSaucer.add(ingredientsList.getIngredients().get(i));
+				}
+			}
+			 // ----------------------------------------->>>>>>>>>> Falta ponerlo en el table view y la verificación de la cantidad
+			message = "Ingrediente añadido al platillo satisfactoriamente!";
+			confirmationAlert(message);
+		}
+		message = "Debe seleccionar un ingrediente para añadir al platillo.";
+		errorAlert(message);
+	}
 
-    }
+	
+	@FXML
+	public void removeIngredientFromSaucer(ActionEvent event) {
+		String message = "";
 
-    @FXML
-    public void addSaucerIngredient(ActionEvent event) {
+		if (cmbxIngredientToRemoveFromSaucer.getSelectionModel().getSelectedItem().equals("") == false) {
+			String ingredientToRemove = cmbxIngredientToRemoveFromSaucer.getSelectionModel().getSelectedItem();
+			for (int i = 0; i < ( saucer.getIngredientsOfSaucer() ).size(); i++) {
+				if (ingredientToRemove.equals( (saucer.getIngredientsOfSaucer() ).get(i).getIngredientName())) {
+					saucer.getIngredientsOfSaucer().remove(i);
+					ingredientsOfSaucer.remove(i);
+					message = "Ingrediente eliminado del platillo satisfactoriamente.";
+					confirmationAlert(message);
+				}
+			}
+		} else {
+			message = "Debe seleccionar el ingrediente que quiere eliminar del platillo.";
+			errorAlert(message);
+		}
+	}
+	
+	
+	@FXML
+	public void addSaucer(ActionEvent event) {
+		String message = "";
+		String saucerName = txtSaucerName.getText();
+		double price = Double.parseDouble(txtSaucerPrice.getText());
+		saucer = new Saucer(saucerName, price, ingredientsOfSaucer);
+		message = "Platillo creado satisfactoriamente!";
+		confirmationAlert(message);
+	}
 
-    }
-
+	
 	@FXML
 	public void returnFromAddSaucer(ActionEvent event) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FoodMenu.fxml"));
@@ -646,6 +723,46 @@ public class LaCucharitaGUI {
 		mainStage.setScene(scene);
 		mainStage.show();
 	}
+	
+	
+	
+	public void initializeComboBoxOfUnitsInAddSoucerWindow() {
+		List<String> quantityUnits = new ArrayList<String>();
+		String quantityUnits1 = "Kilogramos";
+		String quantityUnits2 = "Gramos";
+		String quantityUnits3 = "Mililitros";
+		String quantityUnits4 = "Unidades";
+
+		quantityUnits.add(quantityUnits1);
+		quantityUnits.add(quantityUnits2);
+		quantityUnits.add(quantityUnits3);
+		quantityUnits.add(quantityUnits4);
+
+		ObservableList<String> observableList = FXCollections.observableArrayList(quantityUnits);
+		cmbxRequiredQuantityUnits.setItems(observableList);
+	}
+	
+	
+	public void initializeComboBoxOfIngredientsInAddSoucerWindow() {
+		ObservableList<String> observableListIngredientsToCmbx = FXCollections.observableArrayList(ingredientsToCmbx);
+		cmbxAddIngredientToSaucer.setItems(observableListIngredientsToCmbx);
+	}
+	
+	public void initializeComboBoxOfIngredientsToRemoveInAddSoucerWindow() {
+		ObservableList<String> observableListIngredientsToCmbx = FXCollections.observableArrayList(ingredientsToCmbx);
+		cmbxIngredientToRemoveFromSaucer.setItems(observableListIngredientsToCmbx);
+	}
+	
+	public void initializeTableViewOfIngredientsoFSaucer() {
+    	ObservableList<Ingredient> observableListIngredientsOfSaucer = FXCollections.observableArrayList(saucer.getIngredientsOfSaucer()); 
+    	tvSaucerIngredients.setItems(observableListIngredientsOfSaucer);
+    	tcSaucerIngredientName.setCellValueFactory(new PropertyValueFactory<Ingredient, String>("ingredientName"));
+    	tcSaucerIngredientQuantity.setCellValueFactory(new PropertyValueFactory<Ingredient, Double>("quantity"));
+    	tcSaucerIngredientUnitsOfQuantity.setCellValueFactory(new PropertyValueFactory<Ingredient, String>("quantityUnits"));
+    }
+	
+	
+	
 
 	public void confirmationAlert(String message) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);

@@ -14,7 +14,7 @@ public class Main extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Welcome.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
 		LaCucharitaGUI controller = new LaCucharitaGUI();
 		fxmlLoader.setController(controller);
 		Parent root = fxmlLoader.load();
@@ -25,5 +25,4 @@ public class Main extends Application{
 		primaryStage.setTitle("Restaurante La Cucharita");
 		primaryStage.show();
 	}
-
 }
