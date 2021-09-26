@@ -60,13 +60,7 @@ public class LaCucharitaGUI {
 	}
 	
 	//**************************************************  Atributos  ***************************************************
-	
-	//----------------------------- WELCOME ---------------------
-	//Atributos
-	
-	
-	
-	//Métodos
+
 	
 	
 	//---------------------- LOGIN ------------------------
@@ -75,12 +69,23 @@ public class LaCucharitaGUI {
 
 	@FXML
 	private PasswordField txtEnterPassword;
+	
+  	//----------------------------------- CREATE_ACCOUNT ----------------------------
+	
+	@FXML
+    private TextField txtEmployeeNameCA;
 
+    @FXML
+    private TextField txtEmployeeIDCA;
+
+    @FXML
+    private PasswordField pssEmployeePasswordCA;
+
+    @FXML
+    private DatePicker dpEmployeeBirthdayCA;
 	
 	
-	//--------------- MODULES ------------------
-	//Atributos
-
+	//--------------------------------------------- MODULES ---------------------------------------
     
     // -------------------------------------- LIST_EMPLOYEES --------------------------
     @FXML
@@ -223,27 +228,8 @@ public class LaCucharitaGUI {
     
     
     // *********************************************************   METODOS  *************************************************************
+   
     
-	// ----------------------------- WELCOME ---------------------
-    
-    //Arreglar
-    /*@FXML
-    void enterAdministratorAccount(ActionEvent event) {
-
-    }
-    
-    @FXML
-    public void enterEmployeeAccount(ActionEvent event) throws IOException {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
-		fxmlLoader.setController(this);
-		Parent root = fxmlLoader.load();
-		Scene scene = new Scene(root);
-
-		mainStage.setScene(scene);
-		mainStage.show();
-    }
-    */
-
 	// ---------------------- LOGIN ------------------------
     
   	@FXML
@@ -267,8 +253,8 @@ public class LaCucharitaGUI {
   	}
   	
   	@FXML
-    void createAccount(ActionEvent event) throws IOException {
-  		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addEmployeeWindow.fxml"));
+    public void createAccount(ActionEvent event) throws IOException {
+  		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddEmployeeCA.fxml"));
 		fxmlLoader.setController(this);
 		Parent root = fxmlLoader.load();
 		Scene scene = new Scene(root);
@@ -276,6 +262,42 @@ public class LaCucharitaGUI {
 		mainStage.setScene(scene);
 		mainStage.show();
     }
+  	
+  	//--------------------------------------------------- CREATE_ACCOUNT ---------------------------------
+  	
+  	 @FXML
+     public void addEmployeeCA(ActionEvent event) {
+  		String message = "";
+    	if( (txtEmployeeNameCA.getText()).equals("") == false &&
+    			(txtEmployeeIDCA.getText()).equals("") == false &&
+    			(dpEmployeeBirthdayCA.getValue().toString()).equals("") == false &&
+    			(pssEmployeePasswordCA.getText()).equals("") == false) {
+    		
+			String name = txtEmployeeNameCA.getText();
+			String id = txtEmployeeIDCA.getText();
+			String birthday = dpEmployeeBirthdayCA.getValue().toString();
+			String password = pssEmployeePasswordCA.getText();
+
+			employeeList.addEmployee(name, id, birthday, password);
+			message = "Empleado añadido al restaurante correctamente.";
+			confirmationAlert(message);
+			
+		} else {
+			message = "Tiene que llenar todos los campos para crear un nuevo empleado en el restaurante.";
+			errorAlert(message);
+		}
+     }
+
+     @FXML
+     public void returnFromAddEmployeeCA(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Login.fxml"));
+ 		fxmlLoader.setController(this);
+ 		Parent root = fxmlLoader.load();
+ 		Scene scene = new Scene(root);
+
+ 		mainStage.setScene(scene);
+ 		mainStage.show();
+     }
 
 	// --------------- MODULES ------------------
   	@FXML
@@ -308,12 +330,7 @@ public class LaCucharitaGUI {
 		mainStage.show();
 		
 		initializeTableViewOfSaucers();
-		/*try {
-			initializeTableViewOfSaucers();
-		}catch(NullPointerException ex) {
-			String message = "Agregue platillos a la tabla";
-			informationAlert(message);
-		}*/
+		
     }
 
     
@@ -379,7 +396,7 @@ public class LaCucharitaGUI {
     }
     
     @FXML
-    void toChangePasswordWindow(ActionEvent event) throws IOException {
+    public void toChangePasswordWindow(ActionEvent event) throws IOException {
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ChangePassword.fxml"));
 		fxmlLoader.setController(this);
 		Parent root = fxmlLoader.load();
