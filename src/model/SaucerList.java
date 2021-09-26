@@ -10,8 +10,8 @@ private List<Saucer> saucers;
 		saucers = new ArrayList<Saucer>();
 	}
 	
-	public void addSaucer(String name, double price, List<IngredientOfSaucer> ingredientsOfSaucer) {
-		saucers.add(new Saucer(name, price, ingredientsOfSaucer));
+	public void addSaucer(Saucer saucer) {
+		saucers.add(saucer);
 	}
 	
 	public List<Saucer> getSaucers(){

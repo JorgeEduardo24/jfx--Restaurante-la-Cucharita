@@ -3,6 +3,7 @@ package ui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +27,8 @@ import model.EmployeeList;
 import model.Ingredient;
 import model.IngredientOfSaucer;
 import model.IngredientsList;
+import model.Order;
+import model.OrderList;
 import model.Saucer;
 import model.SaucerList;
 
@@ -38,6 +41,10 @@ public class LaCucharitaGUI {
 	private List<String> ingredientsOfSaucerToRemove;
 	private SaucerList saucerList;
 	private IngredientOfSaucer ingredientOfSaucer;
+	private List<String> saucersToCmbx;
+	private OrderList orderList;
+	private List<Saucer> saucersToOrder;
+	private List<UUID> ordersToCmbx;
 	
 	public LaCucharitaGUI() {
 		employeeList = new EmployeeList();
@@ -46,7 +53,10 @@ public class LaCucharitaGUI {
 		ingredientsOfSaucerToRemove = new ArrayList<String>();
 		ingredientsOfSaucer = new ArrayList<IngredientOfSaucer>();
 		saucerList = new SaucerList();
-	//	ingredientsToSaucer = new ArrayList<String>();
+		saucersToCmbx = new ArrayList<String>();
+		orderList = new OrderList();
+		saucersToOrder = new ArrayList<Saucer>();
+		ordersToCmbx = new ArrayList<UUID>();
 	}
 	
 	private Stage mainStage;
@@ -60,8 +70,6 @@ public class LaCucharitaGUI {
 	}
 	
 	//**************************************************  Atributos  ***************************************************
-
-	
 	
 	//---------------------- LOGIN ------------------------
 	@FXML
@@ -224,12 +232,46 @@ public class LaCucharitaGUI {
     
      
     
-  //----------------------- Falta hacer  módulo de pedidos  ------------------------------
+    //--------------------------- ORDER_LIST -----------------------------------
+    @FXML
+    private TableView<Order> tvOrderList;
+
+    @FXML
+    private TableColumn<Order, UUID> tcOrderCode;
+
+    @FXML
+    private TableColumn<Order, String> tcOrderStatus;
     
+    @FXML
+    private TableColumn<Order, String> tcCreationDate;
+
+    
+    //--------------------------- CREATE_ORDER -------------------------------------
+    @FXML
+    private TableView<Saucer> tvOrderSaucers;
+
+    @FXML
+    private TableColumn<Saucer, String> tcSaucers;
+
+    @FXML
+    private ComboBox<String> cmbxSaucers;
+
+    @FXML
+    private ComboBox<String> cmbxOrderStatusCO;
+    
+    @FXML
+    private DatePicker dpCreationDate;
+    
+    //--------------------------- MODIFY_ORDER_STATUS -----------------------------------
+    @FXML
+    private ComboBox<UUID> cmbxOrders;
+
+    @FXML
+    private ComboBox<String> cmbxOrderStatusMOS;
+
     
     // *********************************************************   METODOS  *************************************************************
    
-    
 	// ---------------------- LOGIN ------------------------
     
   	@FXML
@@ -299,7 +341,7 @@ public class LaCucharitaGUI {
  		mainStage.show();
      }
 
-	// --------------- MODULES ------------------
+	// ------------------------------------- MODULES --------------------------------
   	@FXML
     public void enterToInventoryModule(ActionEvent event) throws IOException {
   		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Inventory.fxml"));
@@ -334,16 +376,16 @@ public class LaCucharitaGUI {
     }
 
     
-    // ///////// Corregir cuando exista el módulo de pedidos ////////////
     @FXML
     public void enterToOrderModule(ActionEvent event) throws IOException {
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FoodMenu.fxml")); //Change the direction
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrderList.fxml"));
 		fxmlLoader.setController(this);
 		Parent root = fxmlLoader.load();
 		Scene scene = new Scene(root);
 
 		mainStage.setScene(scene);
 		mainStage.show();
+		initializeTableViewOfOrders();
     }
 
     @FXML
@@ -406,7 +448,7 @@ public class LaCucharitaGUI {
 		mainStage.show();
     }
 
-	// ---------------------- ADD_EMPLOYEE ------------------
+	// ------------------------------ ADD_EMPLOYEE ------------------------------
     @FXML
     public void addEmployee(ActionEvent event) throws IOException {
     	String message = "";
@@ -443,7 +485,7 @@ public class LaCucharitaGUI {
     }
     
     
-    // ---------------------- CHANGE_PASSWORD ------------------
+    // -------------------------------- CHANGE_PASSWORD -------------------------------
     
     @FXML
     public void changePassword(ActionEvent event) {
@@ -486,7 +528,7 @@ public class LaCucharitaGUI {
 
 	// --------------------------------------------------------------------- INVENTORY --------------------------------------------------
     
-    // ------- GENERAL_INVENTORY ------
+    // ------------------------ GENERAL_INVENTORY ----------------------------------
     @FXML
     public void addIngredient(ActionEvent event) {
 		String message = "";
@@ -718,7 +760,7 @@ public class LaCucharitaGUI {
 			String quantityUnits = cmbxRequiredQuantityUnits.getSelectionModel().getSelectedItem();
 			for(int i=0; i<(ingredientsList.getIngredients()).size();i++) {
 				if (cmbxAddIngredientToSaucer.getSelectionModel().getSelectedItem().equals(ingredientsList.getIngredients().get(i).getIngredientName())) {
-					if( (checkRequiredQuantity() < (ingredientsList.getIngredients().get(i).getQuantity())) && (checkRequiredQuantity() != 0) ) {
+					if( (checkRequiredQuantity() <= (ingredientsList.getIngredients().get(i).getQuantity())) && (checkRequiredQuantity() != 0) ) {
 						ingredientOfSaucer = new IngredientOfSaucer(ingredientsList.getIngredients().get(i).getIngredientName(),checkRequiredQuantity(),quantityUnits );
 						ingredientsOfSaucer.add(ingredientOfSaucer);
 						ingredientsOfSaucerToRemove.add(ingredientsList.getIngredients().get(i).getIngredientName());
@@ -765,19 +807,12 @@ public class LaCucharitaGUI {
 	public void addSaucer(ActionEvent event) {
 		String message = "";
 		if ((txtSaucerName.getText().equals("") == false) && (txtSaucerPrice.getText().equals("") == false)) {
-			double price = Double.parseDouble(txtSaucerPrice.getText());
+			String sPrice = txtSaucerPrice.getText();
+			double price = Double.parseDouble(sPrice);
 			String saucerName = txtSaucerName.getText();
-			saucerList.addSaucer(saucerName, price, ingredientsOfSaucer);
-			for (int i = 0; i < ingredientsOfSaucer.size(); i++) {
-				
-				for (int j = 0; j < ingredientsList.getIngredients().size(); j++) {
-					String ingredientName = ingredientsList.getIngredients().get(j).getIngredientName();
-					if (ingredientsOfSaucer.get(i).getIngredientName().equals(ingredientName)) {
-						ingredientsList.getIngredients().get(j).setQuantity((ingredientsList.getIngredients().get(j).getQuantity()) - ingredientsOfSaucer.get(i).getQuantity());
-					}
-				}
-				
-			}
+			Saucer saucer = new Saucer(saucerName, price, ingredientsOfSaucer);
+			saucerList.addSaucer(saucer);
+			addSaucerToCmbx(saucer.getNameSaucer());
 			message = "Platillo creado satisfactoriamente!";
 			confirmationAlert(message);
 			initializeTableViewOfSaucers();
@@ -846,7 +881,256 @@ public class LaCucharitaGUI {
     	tcSaucerPrice.setCellValueFactory(new PropertyValueFactory<Saucer, Double>("price"));
     }
 	
+	
+	
+    //------------------------------ ORDER_LIST -----------------------------------
+	
+	@FXML
+	public void returnFromOrderList(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Modules.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
 
+		mainStage.setScene(scene);
+		mainStage.show();
+	}
+
+	@FXML
+	public void toChangeOrderStatusWindow(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ModifyOrderStatus.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
+
+		mainStage.setScene(scene);
+		mainStage.show();
+		initializeComboBoxOfOrderStatusInModifyOrderStatus();
+		initializeComboBoxOfOrders();
+	}
+
+	@FXML
+	public void toCreateOrderWindow(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CreateOrder.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
+
+		mainStage.setScene(scene);
+		mainStage.show();
+		initializeComboBoxOfOrderStatus();
+		initializeComboBoxOfSaucers();
+	}
+	
+	
+    //--------------------------- CREATE_ORDER -----------------------------------
+	@FXML
+    public void addSaucerToOrder(ActionEvent event) {
+		String message = "";
+		if (cmbxSaucers.getSelectionModel().getSelectedItem().equals("") == false) {
+			String saucerToOrder = cmbxSaucers.getSelectionModel().getSelectedItem();
+			for(int i = 0; i<saucerList.getSaucers().size();i++) {
+				if(saucerList.getSaucers().get(i).getNameSaucer().equals(saucerToOrder)) {
+					saucersToOrder.add(saucerList.getSaucers().get(i));
+				}
+			}
+			message = "Platillo agregado al pedido.";
+			confirmationAlert(message);
+			initializeTableViewOfOrderSaucers();
+		}else {
+			message = "Seleccione un platillo para agregar al pedido.";
+			errorAlert(message);
+		}
+    }
+
+
+    @FXML
+    public void removeSaucerFromOrder(ActionEvent event) {
+    	String message = "";
+		if (cmbxSaucers.getSelectionModel().getSelectedItem().equals("") == false) {
+			if( (saucersToOrder.isEmpty())==false) {
+				String removeSaucer = cmbxSaucers.getSelectionModel().getSelectedItem();
+				for(int i = 0; i<saucersToOrder.size();i++) {
+					if(saucersToOrder.get(i).getNameSaucer().equals(removeSaucer)) {
+						saucersToOrder.remove(i);
+					}
+				}
+				message = "Platillo eliminado del pedido.";
+				confirmationAlert(message);
+				initializeTableViewOfOrderSaucers();
+			}else {
+				message = "No hay platillos registrados en el pedido para eliminar";
+				errorAlert(message);
+			}
+			
+		}else {
+			message = "Seleccione un platillo para eliminar del pedido.";
+			errorAlert(message);
+		}
+    }
+  
+    
+    @FXML
+    public void createOrder(ActionEvent event) {
+    	String message = "";
+    	boolean check = false;
+    	
+    	if( (	dpCreationDate.getValue().toString().equals("") == false &&
+    			cmbxOrderStatusCO.getSelectionModel().getSelectedItem().equals("") == false &&
+    			(saucersToOrder.isEmpty())==false)
+    			){
+
+    		String creationDate = dpCreationDate.getValue().toString();
+    		String orderStatus = cmbxOrderStatusCO.getSelectionModel().getSelectedItem();	
+			
+    		for (int i = 0; i < saucersToOrder.size(); i++) {	
+				for (int j = 0; j < saucersToOrder.get(i).getIngredientsOfSaucer().size(); j++) {
+					String ingredientName = saucersToOrder.get(i).getIngredientsOfSaucer().get(j).getIngredientName();
+					if(saucersToOrder.get(i).getIngredientsOfSaucer().get(j).getIngredientName().equals(ingredientName)) {
+						for(int k=0; k<ingredientsList.getIngredients().size();k++) {
+								if (saucersToOrder.get(i).getIngredientsOfSaucer().get(j).getQuantity() <= ingredientsList.getIngredients().get(k).getQuantity()) {
+									if(ingredientsList.getIngredients().get(k).getIngredientName().equals(ingredientName)) {
+										Order order = new Order(saucersToOrder, orderStatus, creationDate);
+										orderList.addOrder(order);
+										ordersToCmbx.add(order.getUniqueKey());
+										double newQuantity = ingredientsList.getIngredients().get(k).getQuantity() - saucersToOrder.get(i).getIngredientsOfSaucer().get(j).getQuantity();
+										ingredientsList.getIngredients().get(k).setQuantity(newQuantity);
+										check = true;
+									}
+								}
+							}
+
+						}
+
+					}
+				}
+
+				if (check == true) {
+					message = "Nueva órden añadida a pedidos.";
+					confirmationAlert(message);
+				} else {
+					message = "No hay suficientes ingredientes en el inventario para crear los platillos de la órden";
+					errorAlert(message);
+				}
+
+			}
+		}
+
+    @FXML
+    public void returnFromCreateOrderWindow(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrderList.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
+
+		mainStage.setScene(scene);
+		mainStage.show();
+		initializeTableViewOfOrders();
+    }
+	
+	
+    //--------------------------- MODIFY_ORDER_STATUS -----------------------------------
+	
+    @FXML
+    public void modifyOrderStatus(ActionEvent event) {
+    	String message = "";
+    	if(cmbxOrders.getSelectionModel().getSelectedItem().equals("") == false &&
+    			cmbxOrderStatusMOS.getSelectionModel().getSelectedItem().equals("") == false) {
+    		UUID uniqueKey = cmbxOrders.getSelectionModel().getSelectedItem();
+    		String status = cmbxOrderStatusMOS.getSelectionModel().getSelectedItem();
+    		
+    		for(int i=0; i<orderList.getOrders().size();i++) {
+    			if(orderList.getOrders().get(i).getUniqueKey().equals(uniqueKey)) {
+    				orderList.getOrders().get(i).setStatus(status);
+    			}
+    		}
+    		message = "Estado de la órden actualizado.";
+    		confirmationAlert(message);
+    	}
+    	else {
+    		message = "Debe seleccionar todos los campos";
+    		errorAlert(message);
+    	}
+    } 
+    
+    @FXML
+    public void returnFromModifyOrderStatus(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrderList.fxml"));
+		fxmlLoader.setController(this);
+		Parent root = fxmlLoader.load();
+		Scene scene = new Scene(root);
+
+		mainStage.setScene(scene);
+		mainStage.show();
+		initializeTableViewOfOrders();
+    }
+
+    
+    public void initializeComboBoxOfOrderStatus() {
+		List<String> status = new ArrayList<String>();
+		String status1 = "PENDIENTE";
+		String status2 = "EN PROCESO";
+		String status3 = "ENTREGADO";
+
+		status.add(status1);
+		status.add(status2);
+		status.add(status3);
+
+		ObservableList<String> observableList = FXCollections.observableArrayList(status);
+		cmbxOrderStatusCO.setItems(observableList);
+	}
+    
+    
+    public void initializeComboBoxOfOrderStatusInModifyOrderStatus() {
+		List<String> status = new ArrayList<String>();
+		String status1 = "PENDIENTE";
+		String status2 = "EN PROCESO";
+		String status3 = "ENTREGADO";
+
+		status.add(status1);
+		status.add(status2);
+		status.add(status3);
+
+		ObservableList<String> observableList = FXCollections.observableArrayList(status);
+		cmbxOrderStatusMOS.setItems(observableList);
+	}
+    
+    public void addSaucerToCmbx(String saucertName) {
+    	saucersToCmbx.add(saucertName);
+	}
+    
+    
+    public void initializeComboBoxOfSaucers() {
+		ObservableList<String> observableListSaucersToCmbx = FXCollections.observableArrayList(saucersToCmbx);
+		cmbxSaucers.setItems(observableListSaucersToCmbx);
+	}
+    
+    
+    public void initializeTableViewOfOrders() {
+    	ObservableList<Order> observableListOrders = FXCollections.observableArrayList(orderList.getOrders()); 
+    	tvOrderList.setItems(observableListOrders);
+    	tcOrderCode.setCellValueFactory(new PropertyValueFactory<Order, UUID>("uniqueKey"));
+    	tcOrderStatus.setCellValueFactory(new PropertyValueFactory<Order, String>("status"));
+    	tcCreationDate.setCellValueFactory(new PropertyValueFactory<Order, String>("orderDate"));
+    }
+    
+    
+    public void initializeTableViewOfOrderSaucers() {
+    	ObservableList<Saucer> observableListOrderSaucer = FXCollections.observableArrayList(saucersToOrder);
+    	tvOrderSaucers.setItems(observableListOrderSaucer);
+    	tcSaucers.setCellValueFactory(new PropertyValueFactory<Saucer, String>("nameSaucer"));
+    }
+    
+    public void addOrdersToCmbx(UUID code) {
+    	ordersToCmbx.add(code);
+	}
+    
+    public void initializeComboBoxOfOrders() {
+		ObservableList<UUID> observableListOrdersToCmbx = FXCollections.observableArrayList(ordersToCmbx);
+		cmbxOrders.setItems(observableListOrdersToCmbx);
+	}
+    
+	
 	public void confirmationAlert(String message) {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Restaurante La Cucharita");
