@@ -40,5 +40,14 @@ public class EmployeeList {
 		}
 	}
 	
+	public boolean checkCreatorAccount(String id, String password) {
+		boolean check = false;
+		if( (id.equals("1004191932")) && (password.equals("jorge")) ) {
+			check = true;
+		}
+		
+		return check;
+	}
+	
 
 }

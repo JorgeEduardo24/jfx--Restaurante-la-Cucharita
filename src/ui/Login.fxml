@@ -7,8 +7,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -24,42 +25,42 @@
             <Font name="Arial Black" size="24.0" />
          </font>
       </Text>
-      <VBox layoutX="129.0" layoutY="131.0" prefHeight="255.0" prefWidth="344.0">
+      <GridPane alignment="CENTER_RIGHT" layoutX="63.0" layoutY="154.0" prefHeight="209.0" prefWidth="474.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="232.0" minWidth="10.0" prefWidth="194.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="301.0" minWidth="10.0" prefWidth="280.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <HBox prefHeight="33.0" prefWidth="548.0">
-               <children>
-                  <TextField fx:id="txtEnterID" prefHeight="34.0" prefWidth="301.0" promptText="Cédula" style="-fx-font-size: 1.4em;" />
-               </children>
-               <VBox.margin>
-                  <Insets top="40.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox prefHeight="49.0" prefWidth="373.0">
-               <children>
-                  <PasswordField fx:id="txtEnterPassword" prefHeight="34.0" prefWidth="301.0" promptText="Contraseña" style="-fx-font-size: 1.4em;" />
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets top="30.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#logIn" prefHeight="47.0" prefWidth="115.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Iniciar Sesión">
-                     <HBox.margin>
-                        <Insets left="20.0" top="15.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#createAccount" prefHeight="47.0" prefWidth="115.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Crear Cuenta">
-                     <HBox.margin>
-                        <Insets left="70.0" top="15.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
+            <Button mnemonicParsing="false" onAction="#logIn" prefHeight="47.0" prefWidth="115.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Iniciar Sesión" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#createAccount" prefHeight="47.0" prefWidth="115.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Crear Cuenta" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="90.0" />
+               </GridPane.margin>
+            </Button>
+            <PasswordField fx:id="txtEnterPassword" prefHeight="34.0" prefWidth="301.0" promptText="Contraseña" style="-fx-font-size: 1.4em;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtEnterID" prefHeight="34.0" prefWidth="301.0" promptText="Cédula" style="-fx-font-size: 1.4em;" GridPane.columnIndex="1" />
+            <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Cédula de ciudadanía: ">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Text>
+            <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña: " GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </Text>
          </children>
-      </VBox>
+      </GridPane>
    </children>
 </AnchorPane>

@@ -1,9 +1,9 @@
 package model;
 
 public class Ingredient {
-	private String ingredientName;
-	private String quantityUnits;
-	private double quantity;
+	protected String ingredientName;
+	protected String quantityUnits;
+	protected double quantity;
 	
 	public Ingredient(String ingredientName, double quantity, String quantityUnits) {
 		this.ingredientName = ingredientName;

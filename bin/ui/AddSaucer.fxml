@@ -82,7 +82,7 @@
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnFromAddSaucer" prefHeight="31.0" prefWidth="78.0" style="-fx-background-color: #F00000; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Atrás" />
       <HBox layoutY="308.0" prefHeight="278.0" prefWidth="673.0">
          <children>
-            <TableView fx:id="tcSaucerIngredients" prefHeight="240.0" prefWidth="317.0">
+            <TableView fx:id="tvSaucerIngredients" prefHeight="240.0" prefWidth="317.0">
               <columns>
                 <TableColumn fx:id="tcSaucerIngredientName" prefWidth="142.0" text="Ingrediente del platillo" />
                 <TableColumn fx:id="tcSaucerIngredientQuantity" prefWidth="87.0" text="Cantidad" />
@@ -102,7 +102,7 @@
                   <RowConstraints maxHeight="105.0" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ComboBox fx:id="cmbxAddIngredientToSaucer" prefHeight="30.0" prefWidth="161.0" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="cmbxAddIngredientToSaucer" prefHeight="30.0" prefWidth="161.0" promptText="Seleccione un Ingrediente" GridPane.columnIndex="1" />
                   <Text fill="#ff751c" strokeType="OUTSIDE" strokeWidth="0.0" text="Cantidad requerida:" wrappingWidth="155.9140625" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="14.0" />
@@ -110,12 +110,12 @@
                   </Text>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField fx:id="txtRequiredQuantity" prefHeight="30.0" prefWidth="81.0">
+                        <TextField fx:id="txtRequiredQuantity" prefHeight="30.0" prefWidth="67.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <ComboBox fx:id="cmbxRequiredQuantityUnits" prefHeight="30.0" prefWidth="71.0" />
+                        <ComboBox fx:id="cmbxRequiredQuantityUnits" prefHeight="30.0" prefWidth="95.0" promptText="Seleccione" />
                      </children>
                   </HBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
@@ -138,12 +138,12 @@
                         <Insets top="5.0" />
                      </GridPane.margin>
                   </VBox>
-                  <Button fx:id="addIngredientToSaucer" mnemonicParsing="false" onAction="#addIngredientToSaucer" prefHeight="30.0" prefWidth="147.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Agregar Ingrediente" GridPane.rowIndex="2">
+                  <Button mnemonicParsing="false" onAction="#addIngredientToSaucer" prefHeight="30.0" prefWidth="147.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Agregar Ingrediente" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets bottom="35.0" />
                      </GridPane.margin>
                   </Button>
-                  <ComboBox fx:id="cmbxIngredientToRemoveFromSaucer" prefHeight="32.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <ComboBox fx:id="cmbxIngredientToRemoveFromSaucer" prefHeight="32.0" prefWidth="150.0" promptText="Seleccione un ingrediente" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Button mnemonicParsing="false" onAction="#removeIngredientFromSaucer" prefHeight="30.0" prefWidth="147.0" style="-fx-background-color: #FF751C; -fx-background-radius: 100; -fx-text-fill: white; -fx-font-weight: bolder; -fx-font-size: 1.05em;" text="Eliminar Ingrediente" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets bottom="15.0" />

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class IngredientsList {
 	private List<Ingredient> ingredients;
-	
+
 	public IngredientsList() {
 		ingredients = new ArrayList<Ingredient>();
 	}
@@ -17,4 +17,5 @@ public class IngredientsList {
 	public List<Ingredient> getIngredients(){
 		return ingredients;
 	}
+
 }
