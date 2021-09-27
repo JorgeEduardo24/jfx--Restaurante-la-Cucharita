@@ -1,11 +1,23 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeList {
-	//public Employee employee;
 	private List<Employee> employees;
+	private String FILE_IMPORT_TXT_PATH = "data/EmployeesData.txt";
+	private String FILE_EXPORT_TXT_PATH = "data/ExportedEmployeeData.txt";
+	private String FILE_SAVE_PATH = "data2/Employees.apo2";
 	
 	public EmployeeList() {
 		employees = new ArrayList<Employee>();
@@ -49,5 +61,45 @@ public class EmployeeList {
 		return check;
 	}
 	
+	
+	
+	public void exportEmployees() throws IOException {
+		FileWriter fw = new FileWriter(FILE_EXPORT_TXT_PATH, true);
+		for(int i=0; i<employees.size();i++) {
+			Employee employee = employees.get(i);
+			fw.write(employee.getName()+";"+employee.getId()+";"+employee.getBirthday()+";"+employee.getName()+"\n");
+		}
+		fw.close();
+	}
+	
+	
+	public void importEmployees() throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(FILE_IMPORT_TXT_PATH));
+		String line = br.readLine();
+		while(line != null) {
+			String[] parts = line.split(";");
+			addEmployee(parts[0], parts[1],parts[2],parts[4]);
+			line = br.readLine();
+		}
+		br.close();
+	}
+	
+	
+	
+	public void saveEmployees() throws FileNotFoundException, IOException {
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_SAVE_PATH));
+		oos.writeObject(employees);
+		oos.close();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void loadEmployees() throws FileNotFoundException, IOException, ClassNotFoundException {
+		File file = new File(FILE_SAVE_PATH);
+		if(file.exists()) {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+			employees = (List<Employee>) ois.readObject(); 
+			ois.close();
+		}
+	}
 
 }

@@ -308,7 +308,7 @@ public class LaCucharitaGUI {
   	//--------------------------------------------------- CREATE_ACCOUNT ---------------------------------
   	
   	 @FXML
-     public void addEmployeeCA(ActionEvent event) {
+     public void addEmployeeCA(ActionEvent event) throws IOException {
   		String message = "";
     	if( (txtEmployeeNameCA.getText()).equals("") == false &&
     			(txtEmployeeIDCA.getText()).equals("") == false &&
@@ -321,6 +321,9 @@ public class LaCucharitaGUI {
 			String password = pssEmployeePasswordCA.getText();
 
 			employeeList.addEmployee(name, id, birthday, password);
+			employeeList.exportEmployees();
+			employeeList.saveEmployees();
+			
 			message = "Empleado añadido al restaurante correctamente.";
 			confirmationAlert(message);
 			
@@ -461,8 +464,12 @@ public class LaCucharitaGUI {
 			String id = txtEmployeeID.getText();
 			String birthday = dpEmployeeBirthday.getValue().toString();
 			String password = pssEmployeePassword.getText();
-
+			
+			
 			employeeList.addEmployee(name, id, birthday, password);
+			employeeList.exportEmployees();
+			employeeList.saveEmployees();
+			
 			message = "Empleado añadido al restaurante correctamente.";
 			confirmationAlert(message);
 			
@@ -530,7 +537,7 @@ public class LaCucharitaGUI {
     
     // ------------------------ GENERAL_INVENTORY ----------------------------------
     @FXML
-    public void addIngredient(ActionEvent event) {
+    public void addIngredient(ActionEvent event) throws IOException {
 		String message = "";
 		if (txtEnterIngredientName.getText().equals("") == false
 				&& txtEnterIngredientQuantity.getText().equals("") == false
@@ -540,12 +547,15 @@ public class LaCucharitaGUI {
 			double ingredientQuantity = Double.parseDouble(txtEnterIngredientQuantity.getText());
 			String quantityUnits = cmbxQuantityUnits.getSelectionModel().getSelectedItem();
 
-			Ingredient ingredient = new Ingredient(ingredientName, ingredientQuantity, quantityUnits);
-			ingredientsList.addIngredient(ingredient);
+			ingredientsList.addIngredient(ingredientName, ingredientQuantity, quantityUnits);
+			ingredientsList.exportIngredients();
+			ingredientsList.saveIngredients();
+			
+			
 			message = "Ingrediente agregado satisfactoriamente.";
 			confirmationAlert(message);
 			initializeTableViewOfIngredients();
-			addIngredientToCmbx(ingredient.getIngredientName());
+			addIngredientToCmbx(ingredientName);
 			
 		} else {
 			message = "Debe llenar todos los campos para agregar un ingrediente.";
@@ -804,15 +814,18 @@ public class LaCucharitaGUI {
 	
 	
 	@FXML
-	public void addSaucer(ActionEvent event) {
+	public void addSaucer(ActionEvent event) throws IOException {
 		String message = "";
 		if ((txtSaucerName.getText().equals("") == false) && (txtSaucerPrice.getText().equals("") == false)) {
 			String sPrice = txtSaucerPrice.getText();
 			double price = Double.parseDouble(sPrice);
 			String saucerName = txtSaucerName.getText();
-			Saucer saucer = new Saucer(saucerName, price, ingredientsOfSaucer);
-			saucerList.addSaucer(saucer);
-			addSaucerToCmbx(saucer.getNameSaucer());
+			
+			saucerList.addSaucer(saucerName, price, ingredientsOfSaucer);
+			saucerList.exportSaucers();
+			saucerList.saveSaucers();
+			
+			addSaucerToCmbx(saucerName);
 			message = "Platillo creado satisfactoriamente!";
 			confirmationAlert(message);
 			initializeTableViewOfSaucers();
@@ -971,7 +984,7 @@ public class LaCucharitaGUI {
   
     
     @FXML
-    public void createOrder(ActionEvent event) {
+    public void createOrder(ActionEvent event) throws IOException {
     	String message = "";
     	boolean check = false;
     	
@@ -990,8 +1003,12 @@ public class LaCucharitaGUI {
 						for(int k=0; k<ingredientsList.getIngredients().size();k++) {
 								if (saucersToOrder.get(i).getIngredientsOfSaucer().get(j).getQuantity() <= ingredientsList.getIngredients().get(k).getQuantity()) {
 									if(ingredientsList.getIngredients().get(k).getIngredientName().equals(ingredientName)) {
+										
 										Order order = new Order(saucersToOrder, orderStatus, creationDate);
 										orderList.addOrder(order);
+										orderList.exportOrders();
+										orderList.saveOrders();
+										
 										ordersToCmbx.add(order.getUniqueKey());
 										double newQuantity = ingredientsList.getIngredients().get(k).getQuantity() - saucersToOrder.get(i).getIngredientsOfSaucer().get(j).getQuantity();
 										ingredientsList.getIngredients().get(k).setQuantity(newQuantity);

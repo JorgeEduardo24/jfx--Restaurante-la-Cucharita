@@ -1,0 +1,15 @@
+Lenteja;50.0;Kilogramos
+Lenteja;50.0;Kilogramos
+Arroz;50.0;Kilogramos
+Lenteja;50.0;Kilogramos
+Arroz;50.0;Kilogramos
+Carne;50.0;Kilogramos
+Lenteja;50.0;Kilogramos
+Arroz;50.0;Kilogramos
+Carne;50.0;Kilogramos
+Papas;20.0;Kilogramos
+Lenteja;50.0;Kilogramos
+Arroz;50.0;Kilogramos
+Carne;50.0;Kilogramos
+Papas;20.0;Kilogramos
+Ají;5.0;Kilogramos

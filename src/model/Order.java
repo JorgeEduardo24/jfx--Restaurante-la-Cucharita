@@ -1,9 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-public class Order {
+public class Order implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private UUID uniqueKey;
 	private List<Saucer> saucersOfOrder;
 	private String status;

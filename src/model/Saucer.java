@@ -1,8 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Saucer {
+public class Saucer implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String nameSaucer;
 	private double price;
 	private List<IngredientOfSaucer> ingredientsOfSaucer;
