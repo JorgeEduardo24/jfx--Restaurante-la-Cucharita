@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class EmployeeList {
@@ -61,6 +63,11 @@ public class EmployeeList {
 		return check;
 	}
 	
+	
+	public void sortByEmployeeNameAndEmployeeID() {
+		Comparator<Employee> s1 = new  EmployeeNameAndIDComparator();
+		Collections.sort(employees,s1);
+	}
 	
 	
 	public void exportEmployees() throws IOException {

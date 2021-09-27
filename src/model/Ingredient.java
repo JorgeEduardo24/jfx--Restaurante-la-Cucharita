@@ -39,4 +39,9 @@ public class Ingredient implements Serializable{
 	}
 	
 	
+	public int compareByIngredientName(Ingredient otherIngredientName) {
+		return ingredientName.compareTo(otherIngredientName.getIngredientName());
+	}
+	
+	
 }

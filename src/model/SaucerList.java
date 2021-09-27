@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SaucerList {
@@ -28,6 +29,9 @@ public class SaucerList {
 		return saucers;
 	}
 	
+	public void sortByNameSaucer() {
+		Collections.sort(saucers);
+	}
 	
 	
 	public void exportSaucers() throws IOException {

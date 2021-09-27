@@ -32,6 +32,22 @@ public class IngredientsList {
 	}
 	
 	
+	public void sortByIngredientName() {
+		int j;
+		Ingredient aux;
+		for(int i=1; i<ingredients.size();i++) {
+			aux = ingredients.get(i);
+			j = i-1;
+			while( (j>=0) && (aux.compareByIngredientName(ingredients.get(j)) < 0 ) ) {
+				ingredients.set(j+1, ingredients.get(j));
+				j--;
+			}
+			ingredients.set(j+1, aux);
+		}
+	}
+	
+	
+	
 	public void exportIngredients() throws IOException {
 		FileWriter fw = new FileWriter(FILE_EXPORT_TXT_PATH, true);
 		for(int i=0; i<ingredients.size();i++) {

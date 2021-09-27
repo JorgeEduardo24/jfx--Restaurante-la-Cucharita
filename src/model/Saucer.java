@@ -3,7 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.List;
 
-public class Saucer implements Serializable{
+public class Saucer implements Serializable, Comparable<Saucer>{
 	private static final long serialVersionUID = 1L;
 	private String nameSaucer;
 	private double price;
@@ -37,6 +37,11 @@ public class Saucer implements Serializable{
 
 	public void setIngredientsOfSaucer(List<IngredientOfSaucer> ingredientsOfSaucer) {
 		this.ingredientsOfSaucer = ingredientsOfSaucer;
+	}
+
+	@Override
+	public int compareTo(Saucer o) {
+		return nameSaucer.compareTo(o.getNameSaucer());
 	}
 		
 	

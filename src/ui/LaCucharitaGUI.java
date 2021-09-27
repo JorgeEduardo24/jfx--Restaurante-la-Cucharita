@@ -321,6 +321,8 @@ public class LaCucharitaGUI {
 			String password = pssEmployeePasswordCA.getText();
 
 			employeeList.addEmployee(name, id, birthday, password);
+			employeeList.sortByEmployeeNameAndEmployeeID();
+			
 			employeeList.exportEmployees();
 			employeeList.saveEmployees();
 			
@@ -548,6 +550,8 @@ public class LaCucharitaGUI {
 			String quantityUnits = cmbxQuantityUnits.getSelectionModel().getSelectedItem();
 
 			ingredientsList.addIngredient(ingredientName, ingredientQuantity, quantityUnits);
+			ingredientsList.sortByIngredientName();
+			
 			ingredientsList.exportIngredients();
 			ingredientsList.saveIngredients();
 			
@@ -822,6 +826,8 @@ public class LaCucharitaGUI {
 			String saucerName = txtSaucerName.getText();
 			
 			saucerList.addSaucer(saucerName, price, ingredientsOfSaucer);
+			saucerList.sortByNameSaucer();
+			
 			saucerList.exportSaucers();
 			saucerList.saveSaucers();
 			
