@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class Employee implements Serializable{
 	private static final long serialVersionUID = 1L;
-	protected String name;
-	protected String id;
-	protected String birthday;
-	protected String password;
+	private String name;
+	private String id;
+	private String birthday;
+	private String password;
 	
 	public Employee(String name, String id, String birthday, String password) {
 		this.name = name;
