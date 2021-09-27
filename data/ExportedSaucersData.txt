@@ -1,3 +1,0 @@
-Arroz con lenteja;5000.0;[model.IngredientOfSaucer@4bc9a729, model.IngredientOfSaucer@495dde7d]
-Arraz;15000.0;[model.IngredientOfSaucer@4d053a95]
-Arroz con lenteja;5000.0;[model.IngredientOfSaucer@4bc9a729, model.IngredientOfSaucer@495dde7d]
